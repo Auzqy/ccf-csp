@@ -1,24 +1,20 @@
-package top.au.study.time_2019_3.no2;
+package top.au.study.time_2019_3.no1;
 
 import java.math.BigDecimal;
 import java.util.Scanner;
 
-import org.omg.CosNaming.NamingContextPackage.NotEmpty;
-
 /**
  * 
- * 2019年3月 第二题
+ * 2019年3月 第一题
  * TODO 加入注释的定制化模版
  * TODO 编辑一个word文档记录 mac 环境下的 eclipse 的快捷键
  * 
- * @Description:  
+ * @Description:  TODO 还需要校验输入的数据是不是数字
  * @Author: zqy
- * @CreateTime: 2019-09-14 16:14
- * 
- * 
+ * @CreateTime: 2019-07-16 18:59
  *
  */
-public class Main01 {
+public class Main {
 
 	public static void main(String[] args) {
 		Scanner in=new Scanner(System.in);
