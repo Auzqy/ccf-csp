@@ -1,5 +1,10 @@
 # ccf-csp
 
+#### 习题解答参考
+C/C++
+https://blog.csdn.net/wl16wzl/article/details/79344292（这个题目相对全一点）
+https://blog.csdn.net/tigerisland45/article/details/54755895
+
 #### 介绍
 ccf-csp 相关试题的练习
 
