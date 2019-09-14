@@ -6,7 +6,7 @@ import java.util.Scanner;
  * 
  * 2018年12月 第一题
  * 
- * @Description:  
+ * @Description:  满分通过  20:12
  * @Author: zqy
  * @CreateTime: 2019-09-14 19:37
  *
