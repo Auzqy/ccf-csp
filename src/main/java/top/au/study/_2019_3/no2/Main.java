@@ -3,8 +3,6 @@ package top.au.study._2019_3.no2;
 import java.util.Scanner;
 import java.util.Stack;
 
-import org.omg.CosNaming.NamingContextPackage.NotEmpty;
-
 /**
  * 
  * 2019年3月 第二题
