@@ -1,4 +1,4 @@
-package top.au.study._2019_3.no3;
+package top.au.study._2019_03.no2;
 
 import java.util.Scanner;
 import java.util.Stack;
@@ -9,7 +9,7 @@ import java.util.Stack;
  * TODO 加入注释的定制化模版
  * TODO 编辑一个word文档记录 mac 环境下的 eclipse 的快捷键
  * 
- * @Description:  
+ * @Description:  得分 30 不知为啥？？？
  * @Author: zqy
  * @CreateTime: 2019-09-14 16:14
  * 
@@ -40,24 +40,30 @@ public class Main {
 		for (String str : inputStrArr) {
 			// 将乘法，除法的计算结果放入栈中
 			for (int i = 0; i < str.length(); i++) {
-				char c = str.charAt(i);
-				if(c != 'x' && c != '/') {
-					stack.push(String.valueOf(c));
+//				char c = str.charAt(i);
+				String  s = getStringByIndex(str,i);
+				i = curIndex;
+				if(!"x".equals(s) && !"/".equals(s)) {
+					stack.push(s);
 				}else {
 					String popStr = stack.pop();
 					Integer popInteger = Integer.valueOf(popStr);
+//					Integer nextInteger = Integer.valueOf(
+//							String.valueOf(str.charAt(i+1)));
 					Integer nextInteger = Integer.valueOf(
-							String.valueOf(str.charAt(i+1)));
+							getStringByIndex(str,i+1));
+					i = curIndex;
 					
 					Integer tmpResult;
-					if(c == 'x') {
+//					if(c == 'x') {
+					if("x".equals(s)) {
 						tmpResult = popInteger * nextInteger;
 					}else {
 						tmpResult = popInteger / nextInteger;
 					}
 					
 					stack.push(tmpResult.toString());
-					i++;
+//					i++;
 				}
 			}
 			
@@ -91,6 +97,43 @@ public class Main {
 			}
 		}
 		
+	}
+	
+	private static int curIndex = -1;
+	
+	
+	/**
+	 * 题目中又一个字符串长度为7的限制，这个可以利用一下，
+	 * 这里的这种解法没有利用这个。
+	 * 
+	 * 利用这个条件的话，可以利用indexOf("+") …… 来确定索引范围
+	 * 
+	 * @param str
+	 * @param index
+	 * @return
+	 */
+	private static String getStringByIndex(String str, int index) {
+		
+		char curChar = str.charAt(index);
+//		if(curChar != '+' && curChar != '-' && curChar != '*' && curChar != '/') 
+		if(curChar >= '0' && curChar <= '9') {
+			StringBuilder result = new StringBuilder();
+			while(curChar >= '0' && curChar <= '9' ) {
+					result.append(curChar);
+					index ++;
+					if(index < str.length()) {
+						curChar = str.charAt(index);
+					}else {
+						break;
+					}
+			}
+			curIndex = index-1;
+			return result.toString();
+		}else {
+			curIndex = index;
+			return String.valueOf(curChar);
+		}
+
 	}
 
 }
