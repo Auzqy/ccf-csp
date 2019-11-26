@@ -1,6 +1,5 @@
-package top.au.study.time_2019_3.no3;
+package top.au.study._2019_3.no3;
 
-import java.math.BigDecimal;
 import java.util.Scanner;
 import java.util.Stack;
 

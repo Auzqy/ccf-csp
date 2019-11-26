@@ -1,4 +1,4 @@
-package top.au.study.time_2019_3.no1;
+package top.au.study._2019_3.no1;
 
 import java.math.BigDecimal;
 import java.util.Scanner;
