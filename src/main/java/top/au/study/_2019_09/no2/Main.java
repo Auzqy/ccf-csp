@@ -179,18 +179,14 @@ public class Main {
         }
     }
 
-    public Main() {
-
-    }
-
     public static void main(String[] args) {
         initData();
-        calculateT(a);
-        calculateD(a);
-//        calculateTAndD(a);
+//        calculateT(a);
+//        calculateD(a);
+        calculateTAndD(a);
         calculateE();
 
 
-        System.out.println(T + " " + D + " " + E);
+        System.out.print(T + " " + D + " " + E);
     }
 }

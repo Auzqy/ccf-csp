@@ -126,6 +126,6 @@ public class Main01 {
 
     public static void main(String[] args) {
         Main01 main = new Main01();
-        System.out.println(main.T + " " + main.D + " " + main.E);
+        System.out.print(main.T + " " + main.D + " " + main.E);
     }
 }

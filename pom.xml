@@ -1,14 +1,54 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>top.au.study</groupId>
-  <artifactId>ccf-csp</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <description>exercise for csp </description>
-  
-  <properties>
-  	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  	<maven.compiler.target>1.8</maven.compiler.target>
-    <maven.compiler.source>1.8</maven.compiler.source>
-  </properties>
-  
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>top.au.study</groupId>
+    <artifactId>ccf-csp</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <description>exercise for csp</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <junit.jupiter.version>5.5.1</junit.jupiter.version>
+    </properties>
+
+    <dependencies>
+        <!-- ========== junit5 start ========== -->
+        <!-- 用于在jvm上启动测试框架，
+            统一命令行、Gradle 和 Maven 等方式执行测试的入口 -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- 包含 JUnit5.x 全新的编程模型和扩展机制 -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>${junit.jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- 用于在新的框架中兼容运行 JUnit3.x
+            和 JUnit4.x 的测试用例 -->
+        <!--
+                    <dependency>
+                        <groupId>org.junit.jupiter</groupId>
+                        <artifactId>junit-jupiter-engine</artifactId>
+                        <version>${junit.jupiter.version}</version>
+                        <scope>test</scope>
+                    </dependency>
+        -->
+        <!-- ========== junit5 end ========== -->
+
+        <!-- 使用System Rules，这种方法更加灵活。 -->
+        <dependency>
+            <groupId>com.github.stefanbirkner</groupId>
+            <artifactId>system-rules</artifactId>
+            <version>1.16.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 </project>
