@@ -12,7 +12,7 @@ import java.util.Scanner;
  * 内存限制：	512.0MB
  *
  *
- * 得分 90满分
+ * 得分 100满分
  *
  *
  * Time Complexity: O()
@@ -57,7 +57,7 @@ public class Main01 {
     private void calculateT(ArrayList<Integer>[] a) {
         for (int i = 0; i < N; i++) {
             int size = a[i].size();
-            for (int j = size-1; j < size; j--) {
+            for (int j = size-1; j > 0; j--) {
                 if (a[i].get(j) <= 0) {
                     T += a[i].get(j);
                 } else {
@@ -125,7 +125,7 @@ public class Main01 {
     }
 
     public static void main(String[] args) {
-        Main01 main01 = new Main01();
-        System.out.println(main01.T + " " + main01.D + " " + main01.E);
+        Main01 main = new Main01();
+        System.out.println(main.T + " " + main.D + " " + main.E);
     }
 }

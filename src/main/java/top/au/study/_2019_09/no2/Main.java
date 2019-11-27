@@ -66,7 +66,7 @@ public class Main {
     private static void calculateT(ArrayList<Integer>[] a) {
         for (int i = 0; i < N; i++) {
             int size = a[i].size();
-            for (int j = size-1; j < size; j--) {
+            for (int j = size-1; j > 0; j--) {
                 if (a[i].get(j) <= 0) {
                     T += a[i].get(j);
                 } else {
@@ -120,6 +120,50 @@ public class Main {
         }
     }
 
+
+    /**
+     * 计算T
+     * Time Complexity: O(N*m)
+     * Space Complexity: O(1)
+     */
+    private static void calculateTAndD(ArrayList<Integer>[] a) {
+        for (int i = 0; i < N; i++) {
+            int size = a[i].size();
+
+            int tmpDrop = 0;
+            int preTmpDrop = 0;
+            int tmpDropJ = 0;
+
+            for (int j = size-1; j > 0; j--) {
+                if (a[i].get(j) <= 0) {
+                    T += a[i].get(j);
+                } else {
+                    T += a[i].get(j);
+                    tmpDrop = a[i].get(j);
+                    tmpDropJ = j;
+                    break;
+                }
+            }
+
+            if (tmpDropJ == 1) {
+                continue;
+            }
+            for (int j = tmpDropJ-1; j > 0; j--) {
+                if (a[i].get(j) <= 0) {
+                    preTmpDrop += a[i].get(j);
+                } else {
+                    preTmpDrop += a[i].get(j);
+
+                    if (preTmpDrop > tmpDrop) {
+                        isDrop[i] = 1;
+                        D++;
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
     /**
      * 计算E
      * Time Complexity: O(N)
@@ -143,6 +187,7 @@ public class Main {
         initData();
         calculateT(a);
         calculateD(a);
+//        calculateTAndD(a);
         calculateE();
 
 
