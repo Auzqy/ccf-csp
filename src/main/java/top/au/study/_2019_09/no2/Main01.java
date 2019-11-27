@@ -1,9 +1,7 @@
 package top.au.study._2019_09.no2;
 
-import javax.print.DocFlavor;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.Scanner;
 
 /**
@@ -14,32 +12,29 @@ import java.util.Scanner;
  * 内存限制：	512.0MB
  *
  *
- * 得分 100满分（运行耗时 843ms）
- * （这一次是巧了，之后又运行了几次，均提示超时，得分为90分）
+ * 得分 90满分
  *
+ *
+ * Time Complexity: O()
+ * Space Complexity: O()
  * createTime: 2019-11-26 23:15
  * @author au
  */
-public class Main {
+public class Main01 {
 
-    private static int N;
-    private static int T;
-    private static int D;
-    private static int E;
-    private static ArrayList<Integer>[] a;
+    private int N;
+    private int T;
+    private int D;
+    private int E;
+    private ArrayList<Integer>[] a;
     /**
      * 用于标记每棵树是否有掉落的情况,
      * 默认值为 -1;
      * 有掉落的情况用 1表示;
      */
-    private static int[] isDrop;
+    private int[] isDrop;
 
-    /**
-     * 初始化参数
-     * Time Complexity: O(N*m)
-     * Space Complexity: O(N*m)
-     */
-    private static void initData() {
+    private void initData() {
         Scanner scanner = new Scanner(System.in);
 
         N = scanner.nextInt();
@@ -58,12 +53,8 @@ public class Main {
         }
     }
 
-    /**
-     * 计算T
-     * Time Complexity: O(N*m)
-     * Space Complexity: O(1)
-     */
-    private static void calculateT(ArrayList<Integer>[] a) {
+
+    private void calculateT(ArrayList<Integer>[] a) {
         for (int i = 0; i < N; i++) {
             int size = a[i].size();
             for (int j = size-1; j < size; j--) {
@@ -77,12 +68,8 @@ public class Main {
         }
     }
 
-    /**
-     * 计算D
-     * Time Complexity: O(N*m)
-     * Space Complexity: O(1)
-     */
-    private static void calculateD(ArrayList<Integer>[] a) {
+
+    private void calculateD(ArrayList<Integer>[] a) {
         for (int i = 0; i < N; i++) {
             int size = a[i].size();
             int tmpDrop = 0;
@@ -120,12 +107,7 @@ public class Main {
         }
     }
 
-    /**
-     * 计算E
-     * Time Complexity: O(N)
-     * Space Complexity: O(1)
-     */
-    private static void calculateE() {
+    private void calculateE() {
         for (int i = 0; i < N; i++) {
             if (isDrop[i] == 1
                     && isDrop[(i+1)%N] == 1
@@ -135,17 +117,15 @@ public class Main {
         }
     }
 
-    public Main() {
-
-    }
-
-    public static void main(String[] args) {
+    public Main01() {
         initData();
         calculateT(a);
         calculateD(a);
         calculateE();
+    }
 
-
-        System.out.println(T + " " + D + " " + E);
+    public static void main(String[] args) {
+        Main01 main01 = new Main01();
+        System.out.println(main01.T + " " + main01.D + " " + main01.E);
     }
 }
