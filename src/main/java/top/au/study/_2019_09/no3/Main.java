@@ -21,7 +21,7 @@ import java.util.Scanner;
  */
 public class Main {
 
-    private static final String ESC_RESET = "\\033[0m";
+    private static final String ESC_RESET = "\033[0m";
     private static final String DEFAULT_FRONT_COLOR = "ffffff";
     private static final String DEFAULT_BACK_COLOR = "000000";
 
@@ -95,7 +95,7 @@ public class Main {
      */
     String joinBlackColorConvertStr(RGB rgb) {
         StringBuilder sb = new StringBuilder();
-        sb.append("\\033[48;2;");
+        sb.append("\033[48;2;");
         sb.append(rgb.getR()).append(";");
         sb.append(rgb.getG()).append(";");
         sb.append(rgb.getB()).append("m");
@@ -166,7 +166,8 @@ public class Main {
         StringBuffer hex = new StringBuffer();
         for(int i = 0; i < chars.length; i++){
             hex.append("\\x");
-            hex.append(Integer.toHexString(chars[i]).toUpperCase());
+//            hex.append(Integer.toHexString(chars[i]).toUpperCase());
+            hex.append(String.format("%02x", (int)chars[i]).toUpperCase());
         }
 
         return hex.toString();
@@ -281,7 +282,7 @@ public class Main {
     String coreConvert(RGB[][] pxMatrixNew) {
 
         StringBuilder res = new StringBuilder();
-
+        RGB last = DEFAULT_BLACK;
         for (int i = 0; i < pxMatrixNew.length; i++) {
             for (int j = 0; j < pxMatrixNew[i].length; j++) {
                 /*
@@ -296,18 +297,25 @@ public class Main {
                      *  todo 或者对颜色的修改并不影响最终的显示效果，
                      *  则不出现更改这个属性的控制序列
                      */
-                    if (j > 0) {
-                        if (!pxMatrixNew[i][j].equals(pxMatrixNew[i][j - 1])) {
-                            res.append(
-                                    joinBlackColorConvertStr(
-                                            pxMatrixNew[i][j]));
-                        }
-                    } else {
+//                    if (j > 0) {
+//                        if (!pxMatrixNew[i][j].equals(pxMatrixNew[i][j - 1])) {
+//                            res.append(
+//                                    joinFrontColorConvertStr(
+//                                            pxMatrixNew[i][j]));
+//                        }
+//                    } else {
+//                        res.append(
+//                                joinFrontColorConvertStr(
+//                                        pxMatrixNew[i][j]));
+//                    }
+                    if (!pxMatrixNew[i][j].equals(last)) {
                         res.append(
                                 joinBlackColorConvertStr(
                                         pxMatrixNew[i][j]));
                     }
                 }
+                // 更新上一个元素的内容
+                last = pxMatrixNew[i][j];
                 res.append(" ");
             }
             /*
@@ -318,7 +326,7 @@ public class Main {
                     .equals(DEFAULT_BLACK)) {
                 res.append(ESC_RESET);
             }
-            res.append("\\n");
+            res.append("\n");
         }
 
         return res.toString();
@@ -345,9 +353,9 @@ public class Main {
 
     public Main() {
         initData();
-        String result = unifiedOutputByConvertStringToHex(
-                coreConvert(pxMatrixNew));
-        System.out.print(result);
+//        String result = unifiedOutputByConvertStringToHex(
+//                coreConvert(pxMatrixNew));
+//        System.out.print(result);
     }
 
     static class RGB {
@@ -407,8 +415,8 @@ public class Main {
 
     public static void main(String[] args) {
         Main main = new Main();
-//        String result = main.unifiedOutputByConvertStringToHex(
-//                main.coreConvert(main.pxMatrixNew));
-//        System.out.print(result);
+        String result = main.unifiedOutputByConvertStringToHex(
+                main.coreConvert(main.pxMatrixNew));
+        System.out.print(result);
     }
 }

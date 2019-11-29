@@ -64,7 +64,7 @@ class MainTest {
                         "1 1\n" +
                         "#010203"),
 
-                Arguments.of("\\x1B\\x5B\\x34\\x38\\x3B\\x32\\x3B\\x38\\x3B\\x38\\x3B\\x38\\x6D\\x20\\20\\x1B\\x5B\\x30\\6D\\x0A",
+                Arguments.of("\\x1B\\x5B\\x34\\x38\\x3B\\x32\\x3B\\x38\\x3B\\x38\\x3B\\x38\\x6D\\x20\\x20\\x1B\\x5B\\x30\\x6D\\x0A",
                         "2 2\n" +
                         "1 2\n" +
                         "#111111\n" +
