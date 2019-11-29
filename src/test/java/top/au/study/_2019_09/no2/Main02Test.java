@@ -1,7 +1,6 @@
 package top.au.study._2019_09.no2;
 
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -50,11 +49,7 @@ class Main02Test {
 
         // bytes.toString() 作用是将 bytes内容 转换为字符流
         // 精确匹配
-//        Assertions.assertEquals(expectedOutput,bytes.toString());
-        // 模糊匹配
-//        Assert.assertThat(bytes.toString(),
-//                CoreMatchers.containsString(expectedOutput));
-        MatcherAssert.assertThat(bytes.toString(),
-                CoreMatchers.containsString(expectedOutput));
+        Assertions.assertEquals(expectedOutput,bytes.toString());
     }
+
 }

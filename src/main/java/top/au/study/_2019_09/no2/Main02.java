@@ -157,6 +157,6 @@ public class Main02 {
 
     public static void main(String[] args) {
         Main02 main = new Main02();
-        System.out.println(main.T + " " + main.D + " " + main.E);
+        System.out.print(main.T + " " + main.D + " " + main.E);
     }
 }
