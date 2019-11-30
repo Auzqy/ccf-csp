@@ -13,8 +13,7 @@ import java.util.Scanner;
  * ascii 对照表： https://blog.csdn.net/xiaokui_wingfly/article/details/49228459
  *
  *
- * 得分 100满分（运行耗时 843ms）
- * （这一次是巧了，之后又运行了几次，均提示超时，得分为90分）
+ * todo 得分 0满分（运行耗时 843ms）
  *
  * createTime: 2019-11-29 13:27
  * @author au
