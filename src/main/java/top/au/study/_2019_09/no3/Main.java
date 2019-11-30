@@ -282,7 +282,7 @@ public class Main {
     String coreConvert(RGB[][] pxMatrixNew) {
 
         StringBuilder res = new StringBuilder();
-        RGB last = DEFAULT_BLACK;
+        RGB last = DEFAULT_BLACK, start = DEFAULT_BLACK;
         for (int i = 0; i < pxMatrixNew.length; i++) {
             for (int j = 0; j < pxMatrixNew[i].length; j++) {
                 /*
@@ -297,23 +297,22 @@ public class Main {
                      *  todo 或者对颜色的修改并不影响最终的显示效果，
                      *  则不出现更改这个属性的控制序列
                      */
-//                    if (j > 0) {
-//                        if (!pxMatrixNew[i][j].equals(pxMatrixNew[i][j - 1])) {
-//                            res.append(
-//                                    joinFrontColorConvertStr(
-//                                            pxMatrixNew[i][j]));
-//                        }
-//                    } else {
-//                        res.append(
-//                                joinFrontColorConvertStr(
-//                                        pxMatrixNew[i][j]));
-//                    }
                     if (!pxMatrixNew[i][j].equals(last)) {
-                        res.append(
-                                joinBlackColorConvertStr(
-                                        pxMatrixNew[i][j]));
+                            res.append(
+                                    joinBlackColorConvertStr(
+                                            pxMatrixNew[i][j]));
                     }
                 }
+
+//                if (!pxMatrixNew[i][j].equals(last)) {
+//                    if (pxMatrixNew[i][j].equals(start)) {
+//                        res.append(ESC_RESET);
+//                    } else {
+//                        res.append(
+//                                joinBlackColorConvertStr(
+//                                        pxMatrixNew[i][j]));
+//                    }
+//                }
                 // 更新上一个元素的内容
                 last = pxMatrixNew[i][j];
                 res.append(" ");
