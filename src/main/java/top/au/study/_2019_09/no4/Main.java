@@ -37,6 +37,12 @@ public class Main {
     private TreeMap<Product, Integer>[] productStates;
 
     /**
+     * 用于存储编号对应的产品
+     * key  type+commodity
+     * value    包括分数的产品对象
+     */
+    private HashMap<String, Product> uniqueProduct;
+    /**
      * 操作总数
      */
     private int op_num;
@@ -44,6 +50,11 @@ public class Main {
      * 查询操作的个数
      */
     private int op_ask;
+
+    /**
+     * 每次查询操作计划取出的总数
+     */
+    private int totalK;
 
 //    private ArrayList<OperateProduct> operateProductArrayList;
 
@@ -243,6 +254,8 @@ public class Main {
 //            id_score[i].put(scanner.nextInt(), scanner.nextInt());
 //        }
 
+        uniqueProduct = new HashMap<>(m*n);
+
         productStates = new TreeMap[m];
         for (int i = 0; i < m; i++) {
             productStates[i] = new TreeMap<>();
@@ -253,6 +266,7 @@ public class Main {
             for (int i = 0; i < m; i++) {
                 Product product = new Product(i, commodityInit, scoreInit);
                 productStates[i].put(product,product.getScore());
+                uniqueProduct.put(i + commodityInit + "", product);
                 modifiedMaxScoreGlobal(product);
             }
         }
@@ -308,6 +322,7 @@ public class Main {
 //                operateProduct.setkArrNum(totalKAndMaxK);
 //                // 记录共有多少次查询操作
 //                op_ask++;
+                totalK = totalKAndMaxK[0];
                 // 这条语句需要执行 m 次数
                 for (int c = 1; c <= m; c++) {
                     res.append(doFind(totalKAndMaxK, c));
@@ -317,8 +332,11 @@ public class Main {
 //            operateProductArrayList.add(operateProduct);
         }
 
-        // 去掉响应结果的最后一个换行符
-        resSr = res.toString().substring(0, res.toString().length() - 2);
+        /*
+            去掉响应结果的最后一个换行符
+            "\n" 算作一个字符
+         */
+        resSr = res.toString().substring(0, res.toString().length() - 1);
     }
 
 
@@ -329,17 +347,29 @@ public class Main {
      */
     private String doFind(int[] totalKAndMaxK, int c) {
         StringBuilder res = new StringBuilder();
-        int curK = totalKAndMaxK[c - 1];
+        int curK = totalKAndMaxK[c];
         for (Map.Entry<Product, Integer> productIntegerEntry : productStates[c - 1].entrySet()) {
-            if (curK > 0 && maxScore == productIntegerEntry.getValue()) {
-                res.append(productIntegerEntry.getKey().getCommodity());
-                if (curK != totalKAndMaxK[c - 1]) {
+//            if (curK > 0 && maxScore == productIntegerEntry.getValue()) {
+            if (curK > 0 && totalK > 0) {
+                if (curK == totalKAndMaxK[c]) {
+                    res.append(productIntegerEntry.getKey().getCommodity());
+                }else {
                     res.append(" ");
+                    res.append(productIntegerEntry.getKey().getCommodity());
                 }
                 curK--;
-            } else if(curK == totalKAndMaxK[c - 1]) {
+                // 商品已选满k件，结束遍历
+                totalK--;
+                if (curK == 0 || totalK == 0) {
+                    break;
+                }
+            } else if(curK == totalKAndMaxK[c]) {
                 res.append("-1");
+                break;
             }
+//            else if (maxScore > productIntegerEntry.getValue()) {
+//                break;
+//            }
         }
         return res.toString();
     }
@@ -349,10 +379,13 @@ public class Main {
      * @param product
      */
     private void doDelete(Product product) {
-        if (productStates[product.getType()].containsKey(product)) {
-            int curScore = productStates[product.getType()].get(product);
+        Product recordedProduct = uniqueProduct.get(
+                product.getType() + product.getCommodity() + "");
+//        if (productStates[product.getType()].containsKey(recordedProduct)) {
+//            int curScore = productStates[product.getType()].get(product);
+            int curScore = recordedProduct.getScore();
             // 删除商品
-            productStates[product.getType()].remove(product);
+            productStates[product.getType()].remove(recordedProduct);
             // 维护所有商品的最大分数
             if (curScore == maxScore) {
                 maxScore = -1;
@@ -360,7 +393,7 @@ public class Main {
                     modifiedMaxScoreGlobal(productStates[i].firstKey());
                 }
             }
-        }
+//        }
     }
 
     /**
@@ -369,6 +402,9 @@ public class Main {
     private void doInsert(Product product) {
         // 添加商品
         productStates[product.getType()].put(product,product.getScore());
+        uniqueProduct.put(
+                product.getType() + product.getCommodity() + "",
+                product);
         // 维护所有商品的最大分数
         modifiedMaxScoreGlobal(product);
     }
