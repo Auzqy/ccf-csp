@@ -26,12 +26,14 @@ public class Main01 {
         initData();
     }
 
+    /**
+     * 数据初始化及计算
+     */
     void initData() {
         Scanner scanner = new Scanner(System.in);
         N = scanner.nextInt();
         for (int i = 0; i < N; i++) {
             String s = scanner.next();
-            calculate(s);
             if (i < N - 1) {
                 System.out.println(calculate(s));
             } else {
@@ -40,6 +42,11 @@ public class Main01 {
         }
     }
 
+    /**
+     * 表达式计算的核心逻辑
+     * @param expression    待计算的表达式
+     * @return
+     */
     String calculate(String expression) {
         LinkedList<Integer> numList = new LinkedList<>();
         LinkedList<Character> opList = new LinkedList<>();
