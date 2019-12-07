@@ -25,7 +25,7 @@ import java.util.Scanner;
  * 样例输出
  * 10
  *
- *
+ * 满分通过
  *
  * createTime: 2019-12-07 10:50
  *
