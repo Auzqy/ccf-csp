@@ -261,12 +261,14 @@ public class Main {
 		String value = disks[blockNo].getValue();
 		if ("-1".equals(value)) {
 			Map<Integer, String> blkMap = blk[disks[blockNo].getBlkNo()];
-			if (n - blkMap.size() != 1) {
+			if (n - blkMap.size() > 1) {
 				return "-";
 			}
 			String res = "";
 			for (Map.Entry<Integer, String> entry : blkMap.entrySet()) {
-				res = xor(res, entry.getValue());
+				if (entry.getKey() != disks[blockNo].getBlkNo()) {
+					res = xor(res, entry.getValue());
+				}
 			}
 			return res;
 		}
@@ -282,7 +284,8 @@ public class Main {
 		}
 		long result = Long.parseLong(value1, 16)
 				^ Long.parseLong(value2, 16);
-		return Long.toHexString(result).toUpperCase();
+		// 不够8位的用0补齐
+		return String.format("%08x",result).toUpperCase();
 	}
 
 
