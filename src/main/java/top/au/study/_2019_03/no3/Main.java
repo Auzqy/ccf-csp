@@ -14,6 +14,8 @@ import java.util.Scanner;
  * 内存限制：	512.0MB
  *
  *
+ * todo 得分为0，不知道哪里有问题，先放放
+ *
  * createTime: 2019-12-06 17:36
  * @author au
  */
