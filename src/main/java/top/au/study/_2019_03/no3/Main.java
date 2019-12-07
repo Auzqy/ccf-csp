@@ -159,7 +159,7 @@ public class Main {
 
 		blkLength = disk.get(0).length() / 8;
 
-		maxBlockNum = (n-1) * blkLength / s;
+		maxBlockNum = (n-1) * blkLength;
 
 		disks = new Disk[maxBlockNum];
 		blk = new HashMap[blkLength];
@@ -191,7 +191,7 @@ public class Main {
 						}
 					}
 					// 就是那个P的位置
-					if (i % (n - 1 - k) == 0) {
+					else if (i % (n - 1 - k) == 0) {
 						blockNum = setDisksItem(blockNum, k + 1, i);
 					}
 					// 非 p 的位置
@@ -268,6 +268,7 @@ public class Main {
 			for (Map.Entry<Integer, String> entry : blkMap.entrySet()) {
 				res = xor(res, entry.getValue());
 			}
+			return res;
 		}
 		return value;
 	}
@@ -279,9 +280,9 @@ public class Main {
 		if (null == value2 || "".equals(value2)) {
 			return value1;
 		}
-		int result = Integer.parseInt(value1, 16)
-				^ Integer.parseInt(value2, 16);
-		return Integer.toHexString(result);
+		long result = Long.parseLong(value1, 16)
+				^ Long.parseLong(value2, 16);
+		return Long.toHexString(result).toUpperCase();
 	}
 
 
