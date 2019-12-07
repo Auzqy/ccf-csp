@@ -1,0 +1,9 @@
+testcase 1:
+
+input:
+6
+10 1 10 20 30 20
+
+output:
+10
+
