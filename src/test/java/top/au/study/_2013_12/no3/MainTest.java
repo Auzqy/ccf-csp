@@ -17,7 +17,9 @@ class MainTest {
     static Stream<Arguments> intExpected_stringInput() {
         return Stream.of(
                 Arguments.of("10","6\n" +
-                        "3 1 6 5 2 3")
+                        "3 1 6 5 2 3"),
+                Arguments.of("12","7\n" +
+                        "3 1 6 5 4 2 3")
         );
     }
     

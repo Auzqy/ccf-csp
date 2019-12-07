@@ -28,7 +28,7 @@ import java.util.Scanner;
  * 样例输出
  * 10
  *
- *
+ * 满分通过
  *
  * createTime: 2019-12-07 12:22
  * @author au
@@ -66,16 +66,16 @@ public class Main {
             int curArea = h[i];
 
             // 以 i 为最低点向左扩展
-            int j = i;
+            int j = i-1;
             while (j>=0 && h[i]<=h[j]) {
-                curArea += h[j];
+                curArea += h[i];
                 j--;
             }
 
             // 以 i 为最低点向右扩展
-            j = i;
+            j = i + 1;
             while (j<n && h[i]<=h[j]) {
-                curArea += h[j];
+                curArea += h[i];
                 j++;
             }
             // 尝试更新面积最大值
