@@ -1,0 +1,15 @@
+testcase 1:
+
+input:
+0-670-82162-4
+
+output:
+Right
+
+testcase 2:
+
+input:
+0-670-82162-0
+
+output:
+0-670-82162-4
