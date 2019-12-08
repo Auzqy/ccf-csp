@@ -1,0 +1,8 @@
+testcase 1:
+
+input:
+6
+10 2 6 3 7 8
+
+output:
+3
