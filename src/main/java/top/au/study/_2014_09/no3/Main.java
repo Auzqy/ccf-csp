@@ -38,6 +38,8 @@ import java.util.Scanner;
  * 评测用例规模与约定
  * 　　1<=n<=100，每个字符串的长度不超过100。
  *
+ * 满分通过
+ *
  * createTime: 2019-12-09 11:41
  * @author au
  */
