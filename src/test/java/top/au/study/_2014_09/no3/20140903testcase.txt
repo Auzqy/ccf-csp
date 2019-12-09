@@ -1,0 +1,17 @@
+testcase 1:
+
+input:
+Hello
+1
+5
+HelloWorld
+HiHiHelloHiHi
+GrepIsAGreatTool
+HELLO
+HELLOisNOTHello
+
+
+output:
+HelloWorld
+HiHiHelloHiHi
+HELLOisNOTHello
