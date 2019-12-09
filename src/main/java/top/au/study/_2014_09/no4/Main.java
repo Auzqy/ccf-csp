@@ -1,5 +1,7 @@
 package top.au.study._2014_09.no4;
 
+import java.util.Scanner;
+
 /**
  * description:
  *
@@ -45,7 +47,105 @@ package top.au.study._2014_09.no4;
  */
 public class Main {
 
+    /**
+     * n: 格图的大小、
+     * m: 栋栋的分店数量、
+     * k: 客户的数量，
+     * d: 不能经过的点的数量
+     */
+    private int n,m,k, d;
+
+    /**
+     * 所有目标坐标位置，即用户
+     * 索引表示坐标，
+     * 值为送一份餐的最优的花费成本
+     */
+    private int[][] targets;
+
+    /**
+     * 所有分店的信息
+     */
+    private Shop[] shops;
+
+    /**
+     * 所有用户的信息
+     */
+    private Customer[] customers;
+
+    /**
+     * 每个不能经过的点
+     * 索引表示坐标，
+     * 值为-1表示此路不通
+     */
+    private int[][] ds;
+
+    class Shop {
+        /**
+         *  (x,y) 该分店的坐标位置
+         */
+        private int x;
+        private int y;
+
+        public Shop(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+    class Customer {
+        /**
+         *  (x,y) 该用户的坐标位置
+         */
+        private int x;
+        private int y;
+        /**
+         * 该用户订餐量
+         */
+        private int c;
+
+        public Customer(int x, int y, int c) {
+            this.x = x;
+            this.y = y;
+            this.c = c;
+        }
+    }
 
 
+    private void initDat() {
+        Scanner scanner = new Scanner(System.in);
+        n = scanner.nextInt();
+        m = scanner.nextInt();
+        k = scanner.nextInt();
+        d = scanner.nextInt();
+
+        shops = new Shop[m];
+        for (int i = 0; i < m; i++) {
+            int x = scanner.nextInt();
+            int y = scanner.nextInt();
+            shops[i] = new Shop(x, y);
+        }
+
+        customers = new Customer[k];
+        for (int i = 0; i < k; i++) {
+            int x = scanner.nextInt();
+            int y = scanner.nextInt();
+            int c = scanner.nextInt();
+            customers[i] = new Customer(x, y, c);
+        }
+
+
+        ds = new int[n][n];
+        for (int i = 0; i < d; i++) {
+            int x = scanner.nextInt();
+            int y = scanner.nextInt();
+            ds[x][y] = -1;
+        }
+
+        targets = new int[n][n];
+    }
+
+
+    private void buildGraph() {
+
+    }
 
 }
