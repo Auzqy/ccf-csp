@@ -4,7 +4,7 @@ import java.util.*;
 
 /**
  * description:
- * <p>
+ *
  * 试题编号：	201409-4
  * 试题名称：	最优配餐
  * 时间限制：	1.0s
@@ -14,8 +14,8 @@ import java.util.*;
  * 　　栋栋最近开了一家餐饮连锁店，提供外卖服务。随着连锁店越来越多，怎么合理的给客户送餐成为了一个急需解决的问题。
  * 　　栋栋的连锁店所在的区域可以看成是一个n×n的方格图（如下图所示），方格的格点上的位置上可能包含栋栋的分店（绿色标注）或者客户（蓝色标注），有一些格点是不能经过的（红色标注）。
  * 　　方格图中的线表示可以行走的道路，相邻两个格点的距离为1。栋栋要送餐必须走可以行走的道路，而且不能经过红色标注的点。
- * <p>
- * <p>
+ *
+ *
  * 　　送餐的主要成本体现在路上所花的时间，每一份餐每走一个单位的距离需要花费1块钱。每个客户的需求都可以由栋栋的任意分店配送，每个分店没有配送总量的限制。
  * 　　现在你得到了栋栋的客户的需求，请问在最优的送餐方式下，送这些餐需要花费多大的成本。
  * 输入格式
@@ -41,14 +41,13 @@ import java.util.*;
  * 　　前30%的评测用例满足：1<=n <=20。
  * 　　前60%的评测用例满足：1<=n<=100。
  * 　　所有评测用例都满足：1<=n<=1000，1<=m, k, d<=n^2。可能有多个客户在同一个格点上。每个客户的订餐量不超过1000，每个客户所需要的餐都能被送到。
- * <p>
- * 得分50	1.421s	247.7MB
- * <p>
- * createTime: 2019-12-09 12:04
  *
+ * 得分60
+ *
+ * createTime: 2019-12-09 12:04
  * @author au
  */
-public class Main {
+public class Main_v1 {
 
     /**
      * n: 格图的大小、
@@ -56,53 +55,70 @@ public class Main {
      * k: 客户的数量，
      * d: 不能经过的点的数量
      */
-    private int n, m, k, d;
-
-    private int[] shops;
-
-    private int[] customers;
+    private int n,m,k, d;
 
 //    /**
-//     * 所有分店的信息
+//     * 所有目标坐标位置，即用户
+//     * 索引表示坐标，
+//     * 值为送一份餐的最优的花费成本
 //     */
-//    private Shop[] shops;
-//
-//    /**
-//     * 所有用户的信息
-//     */
-//    private Customer[] customers;
+//    private int[][] targets;
+
+    /**
+     * 索引表示图的节点编号，
+     * 值为到达该点的最短距离（送一份餐的最优的花费成本）
+     */
+    private int[] minDis;
+
+    /**
+     * 所有分店的信息
+     */
+    private Shop[] shops;
+
+    /**
+     * 所有用户的信息
+     */
+    private Customer[] customers;
 
     private int minCost;
 
-//    class Shop {
-//        /**
-//         *  (x,y) 该分店的坐标位置
-//         */
-//        private int x;
-//        private int y;
-//
-//        public Shop(int x, int y) {
-//            this.x = x;
-//            this.y = y;
-//        }
-//    }
-//    class Customer {
-//        /**
-//         *  (x,y) 该用户的坐标位置
-//         */
-//        private int x;
-//        private int y;
-//        /**
-//         * 该用户订餐量
-//         */
-//        private int c;
-//
-//        public Customer(int x, int y, int c) {
-//            this.x = x;
-//            this.y = y;
-//            this.c = c;
-//        }
-//    }
+//    /**
+//     * 每个不能经过的点
+//     * 索引表示坐标，
+//     * 值为-1表示此路不通
+//     */
+//    private int[][] ds;
+
+    class Shop {
+        /**
+         *  (x,y) 该分店的坐标位置
+         */
+        private int x;
+        private int y;
+
+        public Shop(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+    class Customer {
+        /**
+         *  (x,y) 该用户的坐标位置
+         */
+        private int x;
+        private int y;
+        /**
+         * 该用户订餐量
+         */
+        private int c;
+
+        public Customer(int x, int y, int c) {
+            this.x = x;
+            this.y = y;
+            this.c = c;
+        }
+    }
+
 
 
     /**
@@ -113,8 +129,6 @@ public class Main {
     /**
      * 联通的节点默认用 0 表示，
      * 不联通的节点用 -1 表示
-     * 分店： -3
-     * 用户： c >= 1
      */
     private int[][] grid;
 
@@ -140,27 +154,19 @@ public class Main {
 
         grid = new int[n][n];
 
-
-//        shops = new Shop[m];
-        shops = new int[m];
+        shops = new Shop[m];
         for (int i = 0; i < m; i++) {
             int x = scanner.nextInt();
             int y = scanner.nextInt();
-//            shops[i] = new Shop(convertX(y), convertY(x));
-//            grid[convertX(y)][convertY(x)] = -3;
-            shops[i] = convertX(y) * n + convertY(x);
+            shops[i] = new Shop(convertX(y), convertY(x));
         }
 
-//        customers = new Customer[k];
-        customers = new int[k];
+        customers = new Customer[k];
         for (int i = 0; i < k; i++) {
             int x = scanner.nextInt();
             int y = scanner.nextInt();
             int c = scanner.nextInt();
-//            customers[i] = new Customer(convertX(y), convertY(x), c);
-            // 相同坐标的需要的订餐的数量进行累加
-            grid[convertX(y)][convertY(x)] += c;
-            customers[i] = convertX(y) * n + convertY(x);
+            customers[i] = new Customer(convertX(y), convertY(x), c);
         }
 
         disMap = new HashMap<>();
@@ -185,24 +191,23 @@ public class Main {
 
     /**
      * 用邻接表的方式进行建图
-     *
-     * @return 无向无权图
+     * @return  无向无权图
      */
     private HashSet<Integer>[] constructGraph() {
         HashSet<Integer>[] g = new HashSet[n * n];
         // 特别注意，new 对象的话，是不能够这样传递的
-        // Arrays.fill(g, new HashSet<>());
+//        Arrays.fill(g, new HashSet<>());
         for (int i = 0; i < g.length; i++) {
             g[i] = new HashSet<>();
         }
 
         for (int v = 0; v < g.length; v++) {
             int x = v / n, y = v % n;
-            if (grid[x][y] != -1) {
+            if (grid[x][y] == 0) {
                 for (int[] dir : dirs) {
                     int nextx = x + dir[0];
                     int nexty = y + dir[1];
-                    if (inArea(nextx, nexty) && grid[nextx][nexty] != -1) {
+                    if (inArea(nextx, nexty) && grid[nextx][nexty] == 0) {
                         int next = nextx * n + nexty;
                         g[v].add(next);
                         g[next].add(v);
@@ -228,7 +233,7 @@ public class Main {
 //            dis[i] = -1;
 //        }
 
-        bfs(start, dis2AllFromStart);
+        bfs(start,dis2AllFromStart);
     }
 
     private void bfs(Integer start, Integer[] dis2AllFromStart) {
@@ -252,16 +257,8 @@ public class Main {
     }
 
     private void calculateAllShopDis() {
-//        for (Shop shop : shops) {
-//            int start = shop.x * n + shop.y;
-//            Integer[] dis2AllFromStart = new Integer[G.length];
-//            Arrays.fill(dis2AllFromStart, -1);
-//            resetVisitedFalse();
-//            bfs(start, dis2AllFromStart);
-//            disMap.put(start, dis2AllFromStart);
-//        }
-
-        for (int start : shops) {
+        for (Shop shop : shops) {
+            int start = shop.x * n + shop.y;
             Integer[] dis2AllFromStart = new Integer[G.length];
             Arrays.fill(dis2AllFromStart, -1);
             resetVisitedFalse();
@@ -275,63 +272,21 @@ public class Main {
     }
 
     private void calculateAllCustomerCost() {
-//        for (Customer customer : customers) {
-//            int v = customer.x * n + customer.y;
-//            int minDis = Integer.MAX_VALUE;
-//            for (Map.Entry<Integer, Integer[]> entry : disMap.entrySet()) {
-//                Integer[] dis = entry.getValue();
-//                if (minDis > dis[v] && dis[v] > 0) {
-//                    minDis = dis[v];
-//                }
-//            }
-//            minCost += minDis * customer.c;
-//        }
-
-        for (int customer : customers) {
-            int x = customer / n, y = customer % n;
+        for (Customer customer : customers) {
+            int v = customer.x * n + customer.y;
             int minDis = Integer.MAX_VALUE;
             for (Map.Entry<Integer, Integer[]> entry : disMap.entrySet()) {
                 Integer[] dis = entry.getValue();
-                if (minDis > dis[customer] && dis[customer] > 0) {
-                    minDis = dis[customer];
+                if (minDis > dis[v] && dis[v] > 0) {
+                    minDis = dis[v];
                 }
             }
-            minCost += minDis * grid[x][y];
+            minCost += minDis * customer.c;
         }
-//        for (Customer customer : customers) {
-//            int v = customer.x * n + customer.y;
-//            int minDis = Integer.MAX_VALUE;
-//            for (Map.Entry<Integer, Integer[]> entry : disMap.entrySet()) {
-//                Integer[] dis = entry.getValue();
-//                if (minDis > dis[v] && dis[v] > 0) {
-//                    minDis = dis[v];
-//                }
-//            }
-//            minCost += minDis * customer.c;
-//        }
     }
-
-//    private void calculateAllDis() {
-//        for (Shop shop : shops) {
-//            int start = shop.x * n + shop.y;
-//            Integer[] dis2AllFromStart = new Integer[G.length];
-//            Arrays.fill(dis2AllFromStart, -1);
-//            resetVisitedFalse();
-//            bfs(start, dis2AllFromStart);
-//            for (Customer customer : customers) {
-//                int v = customer.x * n + customer.y;
-//                int minDis = Integer.MAX_VALUE;
-//                if (minDis > dis2AllFromStart[v] && dis2AllFromStart[v] > 0) {
-//                    minDis = dis2AllFromStart[v];
-//                }
-//                minCost += minDis * customer.c;
-//            }
-//        }
-//    }
 
     /**
      * 将输入的坐标转换为屏幕横坐标
-     *
      * @param inputY
      * @return
      */
@@ -341,7 +296,6 @@ public class Main {
 
     /**
      * 将输入的坐标转换为屏幕纵坐标
-     *
      * @param inputX
      * @return
      */
@@ -349,7 +303,7 @@ public class Main {
         return inputX - 1;
     }
 
-    public Main() {
+    public Main_v1() {
         initData();
         calculateAllShopDis();
         calculateAllCustomerCost();

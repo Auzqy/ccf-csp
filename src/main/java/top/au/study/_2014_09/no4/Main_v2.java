@@ -48,7 +48,7 @@ import java.util.*;
  *
  * @author au
  */
-public class Main {
+public class Main_v2 {
 
     /**
      * n: 格图的大小、
@@ -349,7 +349,7 @@ public class Main {
         return inputX - 1;
     }
 
-    public Main() {
+    public Main_v2() {
         initData();
         calculateAllShopDis();
         calculateAllCustomerCost();

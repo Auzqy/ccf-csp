@@ -10,8 +10,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class MainTest {
 
     static Stream<Arguments> stringExpected_stringInput() {
@@ -44,7 +42,7 @@ class MainTest {
         System.setOut(new PrintStream(bytes));
 
         //执行要测试的程序，eg. Main.main(new String[]{});
-        Main.main(new String[]{});
+        Main_v1.main(new String[]{});
 
         // bytes.toString() 作用是将 bytes内容 转换为字符流
         Assertions.assertEquals(expectedOutput,bytes.toString());
