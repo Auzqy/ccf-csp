@@ -1,6 +1,6 @@
 package top.au.study._2014_09.no4;
 
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * description:
@@ -42,6 +42,8 @@ import java.util.Scanner;
  * 　　前60%的评测用例满足：1<=n<=100。
  * 　　所有评测用例都满足：1<=n<=1000，1<=m, k, d<=n^2。可能有多个客户在同一个格点上。每个客户的订餐量不超过1000，每个客户所需要的餐都能被送到。
  *
+ * 得分60
+ *
  * createTime: 2019-12-09 12:04
  * @author au
  */
@@ -55,12 +57,18 @@ public class Main {
      */
     private int n,m,k, d;
 
+//    /**
+//     * 所有目标坐标位置，即用户
+//     * 索引表示坐标，
+//     * 值为送一份餐的最优的花费成本
+//     */
+//    private int[][] targets;
+
     /**
-     * 所有目标坐标位置，即用户
-     * 索引表示坐标，
-     * 值为送一份餐的最优的花费成本
+     * 索引表示图的节点编号，
+     * 值为到达该点的最短距离（送一份餐的最优的花费成本）
      */
-    private int[][] targets;
+    private int[] minDis;
 
     /**
      * 所有分店的信息
@@ -72,12 +80,14 @@ public class Main {
      */
     private Customer[] customers;
 
-    /**
-     * 每个不能经过的点
-     * 索引表示坐标，
-     * 值为-1表示此路不通
-     */
-    private int[][] ds;
+    private int minCost;
+
+//    /**
+//     * 每个不能经过的点
+//     * 索引表示坐标，
+//     * 值为-1表示此路不通
+//     */
+//    private int[][] ds;
 
     class Shop {
         /**
@@ -110,18 +120,45 @@ public class Main {
     }
 
 
-    private void initDat() {
+
+    /**
+     * 四联通：从上面开始，顺时针转四个方向
+     */
+    private int[][] dirs = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
+
+    /**
+     * 联通的节点默认用 0 表示，
+     * 不联通的节点用 -1 表示
+     */
+    private int[][] grid;
+
+    /**
+     * 用邻接表的形式存储建图后的内容
+     */
+    private HashSet<Integer>[] G;
+
+    private boolean[] visited;
+
+    /**
+     * 键代表起始点，
+     * 值代表从该起始点到达各点的距离
+     */
+    private HashMap<Integer, Integer[]> disMap;
+
+    private void initData() {
         Scanner scanner = new Scanner(System.in);
         n = scanner.nextInt();
         m = scanner.nextInt();
         k = scanner.nextInt();
         d = scanner.nextInt();
 
+        grid = new int[n][n];
+
         shops = new Shop[m];
         for (int i = 0; i < m; i++) {
             int x = scanner.nextInt();
             int y = scanner.nextInt();
-            shops[i] = new Shop(x, y);
+            shops[i] = new Shop(convertX(y), convertY(x));
         }
 
         customers = new Customer[k];
@@ -129,23 +166,152 @@ public class Main {
             int x = scanner.nextInt();
             int y = scanner.nextInt();
             int c = scanner.nextInt();
-            customers[i] = new Customer(x, y, c);
+            customers[i] = new Customer(convertX(y), convertY(x), c);
         }
 
+        disMap = new HashMap<>();
 
-        ds = new int[n][n];
+
+//        ds = new int[n][n];
         for (int i = 0; i < d; i++) {
             int x = scanner.nextInt();
             int y = scanner.nextInt();
-            ds[x][y] = -1;
+//            ds[x][y] = -1;
+            grid[convertX(y)][convertY(x)] = -1;
         }
 
-        targets = new int[n][n];
+        minCost = 0;
+//        targets = new int[n][n];
+
+//        buildGrid();
+        G = constructGraph();
+        visited = new boolean[G.length];
+
+    }
+
+    /**
+     * 用邻接表的方式进行建图
+     * @return  无向无权图
+     */
+    private HashSet<Integer>[] constructGraph() {
+        HashSet<Integer>[] g = new HashSet[n * n];
+        // 特别注意，new 对象的话，是不能够这样传递的
+//        Arrays.fill(g, new HashSet<>());
+        for (int i = 0; i < g.length; i++) {
+            g[i] = new HashSet<>();
+        }
+
+        for (int v = 0; v < g.length; v++) {
+            int x = v / n, y = v % n;
+            if (grid[x][y] == 0) {
+                for (int[] dir : dirs) {
+                    int nextx = x + dir[0];
+                    int nexty = y + dir[1];
+                    if (inArea(nextx, nexty) && grid[nextx][nexty] == 0) {
+                        int next = nextx * n + nexty;
+                        g[v].add(next);
+                        g[next].add(v);
+                    }
+                }
+            }
+        }
+
+        return g;
     }
 
 
-    private void buildGraph() {
-
+    private boolean inArea(int nextx, int nexty) {
+        return nextx >= 0 && nextx < n && nexty >= 0 && nexty < n;
     }
 
+    private void USSSPath(Integer start, Integer[] dis2AllFromStart) {
+
+//        visited = new boolean[G.length];
+//        dis = new int[G.length];
+//
+//        for (int i = 0; i < G.length; i++) {
+//            dis[i] = -1;
+//        }
+
+        bfs(start,dis2AllFromStart);
+    }
+
+    private void bfs(Integer start, Integer[] dis2AllFromStart) {
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(start);
+        visited[start] = true;
+//        dis[start] = 0;
+        dis2AllFromStart[start] = 0;
+
+        while (!queue.isEmpty()) {
+            Integer v = queue.remove();
+            for (Integer w : G[v]) {
+                if (!visited[w]) {
+                    queue.add(w);
+                    visited[w] = true;
+//                    dis[w] = dis[v] + 1;
+                    dis2AllFromStart[w] = dis2AllFromStart[v] + 1;
+                }
+            }
+        }
+    }
+
+    private void calculateAllShopDis() {
+        for (Shop shop : shops) {
+            int start = shop.x * n + shop.y;
+            Integer[] dis2AllFromStart = new Integer[G.length];
+            Arrays.fill(dis2AllFromStart, -1);
+            resetVisitedFalse();
+            bfs(start, dis2AllFromStart);
+            disMap.put(start, dis2AllFromStart);
+        }
+    }
+
+    private void resetVisitedFalse() {
+        Arrays.fill(visited, false);
+    }
+
+    private void calculateAllCustomerCost() {
+        for (Customer customer : customers) {
+            int v = customer.x * n + customer.y;
+            int minDis = Integer.MAX_VALUE;
+            for (Map.Entry<Integer, Integer[]> entry : disMap.entrySet()) {
+                Integer[] dis = entry.getValue();
+                if (minDis > dis[v] && dis[v] > 0) {
+                    minDis = dis[v];
+                }
+            }
+            minCost += minDis * customer.c;
+        }
+    }
+
+    /**
+     * 将输入的坐标转换为屏幕横坐标
+     * @param inputY
+     * @return
+     */
+    private int convertX(int inputY) {
+        return n - inputY;
+    }
+
+    /**
+     * 将输入的坐标转换为屏幕纵坐标
+     * @param inputX
+     * @return
+     */
+    private int convertY(int inputX) {
+        return inputX - 1;
+    }
+
+    public Main() {
+        initData();
+        calculateAllShopDis();
+        calculateAllCustomerCost();
+        System.out.print(minCost);
+    }
+
+
+    public static void main(String[] args) {
+        new Main();
+    }
 }
