@@ -70,24 +70,19 @@ public class Main {
         grid = new int[n][n];
 
 
-//        shops = new Shop[m];
         shops = new int[m];
         for (int i = 0; i < m; i++) {
             int x = scanner.nextInt();
             int y = scanner.nextInt();
-//            shops[i] = new Shop(convertX(y), convertY(x));
-//            grid[convertX(y)][convertY(x)] = -3;
             shops[i] = convertX(y) * n + convertY(x);
         }
 
-//        customers = new Customer[k];
         HashSet<Integer> uniquePositionSet = new HashSet<>();
         customers = new int[k];
         for (int i = 0; i < k; i++) {
             int x = scanner.nextInt();
             int y = scanner.nextInt();
             int c = scanner.nextInt();
-//            customers[i] = new Customer(convertX(y), convertY(x), c);
             // 相同坐标的需要的订餐的数量进行累加
             grid[convertX(y)][convertY(x)] += c;
             customers[i] = convertX(y) * n + convertY(x);
