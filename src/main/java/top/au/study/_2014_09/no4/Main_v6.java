@@ -1,11 +1,14 @@
 package top.au.study._2014_09.no4;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
 
 /**
  * 60	1.515s	180.3MB
  */
-public class Main {
+public class Main_v6 {
 
     /**
      * n: 格图的大小、
@@ -200,13 +203,13 @@ public class Main {
         return inputX - 1;
     }
 
-    public Main() {
+    public Main_v6() {
         initData();
         bfs();
         System.out.print(minCost);
     }
 
     public static void main(String[] args) {
-        new Main();
+        new Main_v6();
     }
 }
