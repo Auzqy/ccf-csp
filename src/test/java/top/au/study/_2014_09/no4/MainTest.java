@@ -24,7 +24,45 @@ class MainTest {
                         "6 7 2\n" +
                         "1 2\n" +
                         "2 2\n" +
-                        "6 8")
+                        "6 8"),
+                Arguments.of("32",
+
+                        "10 2 4 3\n" +
+                                "1 1\n" +
+                                "8 8\n" +
+                                "1 5 1\n" +
+                                "2 3 3\n" +
+                                "6 7 2\n" +
+                                "6 7 1\n" +
+                                "1 2\n" +
+                                "2 2\n" +
+                                "6 8"),
+                Arguments.of("32",
+
+                        "10 3 4 3\n" +
+                                "1 1\n" +
+                                "8 8\n" +
+                                "8 6\n" +
+                                "1 5 1\n" +
+                                "2 3 3\n" +
+                                "6 7 2\n" +
+                                "6 7 1\n" +
+                                "1 2\n" +
+                                "2 2\n" +
+                                "6 8"),
+                Arguments.of("26",
+
+                        "10 3 4 3\n" +
+                                "1 1\n" +
+                                "8 8\n" +
+                                "7 7\n" +
+                                "1 5 1\n" +
+                                "2 3 3\n" +
+                                "6 7 2\n" +
+                                "6 7 1\n" +
+                                "1 2\n" +
+                                "2 2\n" +
+                                "6 8")
         );
     }
 
@@ -42,7 +80,7 @@ class MainTest {
         System.setOut(new PrintStream(bytes));
 
         //执行要测试的程序，eg. Main.main(new String[]{});
-        Main_v1.main(new String[]{});
+        Main.main(new String[]{});
 
         // bytes.toString() 作用是将 bytes内容 转换为字符流
         Assertions.assertEquals(expectedOutput,bytes.toString());
