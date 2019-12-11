@@ -105,6 +105,8 @@ public class Main {
     /**
      * 用邻接表的方式进行建图
      *
+     * todo 去掉这个建图的过程
+     *
      * @return 无向无权图
      */
     private HashSet<Integer>[] constructGraph() {
@@ -154,6 +156,20 @@ public class Main {
 
         while (!queue.isEmpty()) {
             Integer v = queue.remove();
+            int x = v / n, y = v % n;
+            if (grid[x][y] != -1) {
+                for (int[] dir : dirs) {
+                    int nextx = x + dir[0];
+                    int nexty = y + dir[1];
+                    if (inArea(nextx, nextx) && grid[nextx][nexty] != -1) {
+                        int next = nextx * n + nexty;
+                        minCost += dis[next] * grid[nextx][nextx];
+//                        g[v].add(next);
+//                        g[next].add(v);
+                        queue.add(next);
+                    }
+                }
+            }
 
             for (Integer w : G[v]) {
                 if (!visited[w]) {
